@@ -1748,29 +1748,15 @@ if ((monpals.mons[menuCursor][0] == 0) && (monpals.mons[menuCursor + 1][0] > 16)
   // Move the monpals down, one by one
   for (uint8_t i = menuCursor; i < 2; ++i)
   {
-    // Create a local copy of the next monpal
-    uint8_t next0 = monpals.mons[i + 1][0];
-    uint8_t next1 = monpals.mons[i + 1][1];
-    
-    // If the next monpal isn't empty
-    if(next0 != 0)
-    { 
-      // The next monpal is copied into the current monpal's slot
-      monpals.mons[i][0] = next0;
-      monpals.mons[i][1] = next1;
-      monpals.mons[i + 1][0] = 0;
-      monpals.mons[i + 1][1] = 0;
-    }
-    // Otherwise, if the next monpal is empty
-    else
-    {
-      // Erase the current monpal because it's the last one
-      monpals.mons[i][0] = 0;
-      monpals.mons[i][1] = 0;
-    }
+    // The next monpal is copied into the current monpal's slot
+    monpals.mons[i][0] = monpals.mons[i + 1][0];
+    monpals.mons[i][1] = monpals.mons[i + 1][1];
   }
+
+  // Erase the last monpal
+  monpals.mons[2][0] = 0;
+  monpals.mons[2][1] = 0;
 }
-//
 
 Text();
 arduboy.print(F(" was released."));
