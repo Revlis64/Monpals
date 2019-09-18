@@ -105,7 +105,7 @@ void MonConstruct()
 
 		MonSpcStatConstruct();
 
-		monpals.maxHlt[a] = (((monpals.def[a] + monpals.maxEng[a]) / 2) + 1) * monpals.lvl[a];
+		monpals.maxHlt[a] = ((((monpals.def[a] + monpals.maxEng[a]) / 2) + 1) * monpals.lvl[a]);
 		monpals.hlt[a] = monpals.maxHlt[a];
 		monpals.maxEng[a] *= 2;
 		monpals.eng[a] = monpals.maxEng[a];
@@ -335,7 +335,7 @@ void BattleMenuVisuals()
 {
 	if (buttonClick == 0)
 	{
-		engCost = monpals.maxEng[monpals.player]/monpals.spd[monpals.player];
+		engCost = (monpals.maxEng[monpals.player] / monpals.spd[monpals.player]);
 
 		if (engCost < 1)
 			engCost = 1;
@@ -365,7 +365,7 @@ void BattleMenuVisuals()
 		else if(menuCursor == 3)
 		{
 			arduboy.print(F("<SWITCH >"));
-		};
+		}
 	}
 
 	if (buttonClick == 1)
@@ -399,13 +399,13 @@ void BattleMenuVisuals()
 	if (buttonClick > 1)
 	{
 		MonpalSelection();
-	};
+	}
 
 	if (buttonClick != 0)
 	{
 		arduboy.setCursor(84, 56);
 		arduboy.print(F("(A)BACK"));
-	};
+	}
 }
 
 void BattleConditionVisuals()
@@ -429,15 +429,15 @@ void BattleCondition()
 	{
 		if (rnd <= 50)
 		{
-			dmg = monpals.atk[monpals.attacker] * ((monpals.lvl[monpals.attacker] / ((monpals.def[monpals.attacker] + ((monpals.lvl[monpals.attacker] / 3) + 1)) / 2)) + 1);
+			dmg = (monpals.atk[monpals.attacker] * ((monpals.lvl[monpals.attacker] / ((monpals.def[monpals.attacker] + ((monpals.lvl[monpals.attacker] / 3) + 1)) / 2)) + 1));
 
 			if (dmg <= 0)
 				dmg = 1;
 
 			if (dmg >= monpals.hlt[monpals.attacker])
 				monpals.hlt[monpals.attacker] = 0;
-			else monpals.hlt[monpals.attacker]
-				-= dmg;
+			else
+				monpals.hlt[monpals.attacker] -= dmg;
 
 			monpals.eng[monpals.attacker] -= engCost;
 
@@ -449,11 +449,11 @@ void BattleCondition()
 			monpals.cdn[monpals.attacker] = 0;
 			BattleConditionVisuals();
 			arduboy.print(F(" snapped out of its daze."));
-		};
+		}
 
 		arduboy.display();
 		delay(2000);
-	};
+	}
 
 	if (monpals.cdn[monpals.attacker] == 3)
 	{
@@ -472,7 +472,7 @@ void BattleCondition()
 
 		arduboy.display();
 		delay(2000);
-	};
+	}
 
 	if (monpals.eng[monpals.attacker] < engCost && monpals.eng[monpals.attacker] > 0)
 	{
@@ -482,13 +482,13 @@ void BattleCondition()
 		arduboy.display();
 		delay(2000);
 		BattleSleep();
-	};
+	}
 }
 
 void BattleAttack()
 {
 	BattleCondition();
-	dmg = monpals.atk[monpals.attacker] * ((monpals.lvl[monpals.attacker] / ((monpals.def[monpals.victim] + ((monpals.lvl[monpals.victim] / 3) + 1)) / 2)) + 1);
+	dmg = (monpals.atk[monpals.attacker] * ((monpals.lvl[monpals.attacker] / ((monpals.def[monpals.victim] + ((monpals.lvl[monpals.victim] / 3) + 1)) / 2)) + 1));
 
 	if (monpals.cdn[monpals.attacker] == 1)
 		dmg /= 2;
@@ -498,7 +498,7 @@ void BattleAttack()
 
 	rnd = random(1, 101);
 
-	if (monpals.eng[monpals.attacker] >= engCost && monpals.cdn[monpals.attacker] != 2 && monpals.cdn[monpals.attacker] != 3)
+	if ((monpals.eng[monpals.attacker] >= engCost) && (monpals.cdn[monpals.attacker] != 2) && (monpals.cdn[monpals.attacker] != 3))
 	{
 		if (rnd <= 10)
 		{
@@ -516,7 +516,7 @@ void BattleAttack()
 			arduboy.display();
 			delay(2000);
 		}
-		else if (rnd >= 11 && rnd <= 100 && monpals.cdn[monpals.attacker] != 2 && monpals.cdn[monpals.attacker] != 3)
+		else if ((rnd >= 11) && (rnd <= 100) && (monpals.cdn[monpals.attacker] != 2) && (monpals.cdn[monpals.attacker] != 3))
 		{
 			monpals.eng[monpals.attacker] -= engCost;
 			BattleVisuals();
@@ -545,7 +545,7 @@ void BattleAttack()
 
 				Arduboy2::invert(flicker);
 				delay(400 / a);
-			};
+			}
 
 			Arduboy2::invert(false);
 			flicker = false;
@@ -555,11 +555,11 @@ void BattleAttack()
 				arduboy.print(F("CRITICAL HIT!"));
 				arduboy.display();
 				delay(2000);
-			};
+			}
 
 			BattleVisuals();
 
-			if ((monpals.type[monpals.attacker] == 1 && monpals.type[monpals.victim] == 2) || (monpals.type[monpals.attacker] == 2 && monpals.type[monpals.victim] == 3) || (monpals.type[monpals.attacker] == 3 && monpals.type[monpals.victim] == 1))
+			if (((monpals.type[monpals.attacker] == 1) && (monpals.type[monpals.victim] == 2)) || ((monpals.type[monpals.attacker] == 2) && (monpals.type[monpals.victim] == 3)) || ((monpals.type[monpals.attacker] == 3) && (monpals.type[monpals.victim] == 1)))
 			{
 				dmg *= 2;
 				if (dmg < 2) dmg = 2;
@@ -568,14 +568,14 @@ void BattleAttack()
 				arduboy.display();
 				delay(2000);
 			}
-			else if ((monpals.type[monpals.attacker] == 1 && monpals.type[monpals.victim] == 3) || (monpals.type[monpals.attacker] == 2 && monpals.type[monpals.victim] == 1) || (monpals.type[monpals.attacker] == 3 && monpals.type[monpals.victim] == 2))
+			else if (((monpals.type[monpals.attacker] == 1) && (monpals.type[monpals.victim] == 3)) || ((monpals.type[monpals.attacker] == 2) && (monpals.type[monpals.victim] == 1)) || ((monpals.type[monpals.attacker] == 3) && (monpals.type[monpals.victim] == 2)))
 			{
 				dmg /= 2;
 				arduboy.setCursor(0, 48);
 				arduboy.print(F("Not very effective."));
 				arduboy.display();
 				delay(2000);
-			};
+			}
 
 			if (rnd <= 15)
 			{
@@ -608,7 +608,7 @@ void BattleAttack()
 
 			rnd = random(1, 101);
 
-			if (rnd >= 1 && rnd <= 2 && monpals.cdn[monpals.victim] == 0 && monpals.hlt[monpals.victim] > 0)
+			if ((rnd >= 1) && (rnd <= 2) && (monpals.cdn[monpals.victim] == 0) && (monpals.hlt[monpals.victim] > 0))
 			{
 				monpals.cdn[monpals.victim] = 2;
 
@@ -627,7 +627,7 @@ void BattleAttack()
 				delay(2000);
 			}
 
-			if (rnd >= 99 && rnd <= 100 && monpals.cdn[monpals.victim] == 0 && monpals.hlt[monpals.victim] > 0)
+			if ((rnd >= 99) && (rnd <= 100) && (monpals.cdn[monpals.victim] == 0) && (monpals.hlt[monpals.victim] > 0))
 			{
 				monpals.cdn[monpals.victim] = 1;
 
@@ -653,7 +653,7 @@ void BattleAttack()
 
 void BattleSleep()
 {
-	if (monpals.eng[monpals.attacker] == 0 && monpals.cdn[monpals.attacker] != 3 && monpals.hlt[monpals.attacker] != 0)
+	if ((monpals.eng[monpals.attacker] == 0) && (monpals.cdn[monpals.attacker] != 3) && (monpals.hlt[monpals.attacker] != 0))
 	{
 		monpals.cdn[monpals.attacker] = 3;
 
@@ -663,7 +663,7 @@ void BattleSleep()
 		arduboy.setCursor(0, 48);
 
 		if (monpals.attacker == monpals.enemy)
-		 arduboy.print(F("Foe "));
+			arduboy.print(F("Foe "));
 
 		Text();
 
@@ -676,12 +676,12 @@ void BattleSleep()
 void BattleDefense()
 {
 	BattleCondition();
-	if (monpals.eng[monpals.attacker] >= engCost && monpals.cdn[monpals.attacker] != 2 && monpals.cdn[monpals.attacker] != 3)
+	if ((monpals.eng[monpals.attacker] >= engCost) && (monpals.cdn[monpals.attacker] != 2) && (monpals.cdn[monpals.attacker] != 3))
 	{
 		rnd = random(2, 5);
 		monpals.eng[monpals.attacker] -= engCost;
 
-		if ((monpals.def[monpals.attacker]+rnd) >= 10)
+		if ((monpals.def[monpals.attacker] + rnd) >= 10)
 		{
 			monpals.def[monpals.attacker] = 10;
 
@@ -738,13 +738,13 @@ void BattleHerb()
 	else
 		i = 0;
 
-	if (monpals.hlt[menuCursor] == monpals.maxHlt[menuCursor] || monpals.hlt[menuCursor] == 0)
+	if ((monpals.hlt[menuCursor] == monpals.maxHlt[menuCursor]) || (monpals.hlt[menuCursor] == 0))
 	{
 		BattleItemMissUsed();
 	}
 	else
 	{
-		rnd = random((monpals.maxHlt[menuCursor]/2), monpals.maxHlt[menuCursor]);
+		rnd = random((monpals.maxHlt[menuCursor] / 2), monpals.maxHlt[menuCursor]);
 
 		if (rnd >= (monpals.maxHlt[menuCursor] - monpals.hlt[menuCursor]))
 			monpals.hlt[menuCursor] = monpals.maxHlt[menuCursor];
@@ -763,7 +763,7 @@ void BattleHerb()
 		delay(2000);
 
 		--herb;
-	};
+	}
 }
 
 void BattleCoffee()
@@ -773,7 +773,7 @@ void BattleCoffee()
 	else
 		i = 0;
 
-	if (monpals.eng[menuCursor] == monpals.maxEng[menuCursor] || monpals.hlt[menuCursor] == 0)
+	if ((monpals.eng[menuCursor] == monpals.maxEng[menuCursor]) || (monpals.hlt[menuCursor] == 0))
 	{
 		BattleItemMissUsed();
 	}
@@ -806,14 +806,14 @@ void BattleCure()
 	else
 		i = 0;
 
-	if (monpals.cdn[menuCursor] == 0 || monpals.hlt[menuCursor] == 0)
+	if ((monpals.cdn[menuCursor] == 0) || (monpals.hlt[menuCursor] == 0))
 	{
 		BattleItemMissUsed();
 	}
 	else
 	{
 		if (monpals.cdn[menuCursor] == 3)
-			monpals.eng[menuCursor]=monpals.maxEng[menuCursor];
+			monpals.eng[menuCursor] = monpals.maxEng[menuCursor];
 
 		monpals.cdn[menuCursor] = 0;
 
@@ -829,7 +829,7 @@ void BattleCure()
 		delay(2000);
 
 		--cure;
-	};
+	}
 }
 
 void BattleRevive()
@@ -839,14 +839,14 @@ void BattleRevive()
 	else
 		i = 0;
 
-	if (monpals.hlt[menuCursor] > 0 || monpals.spc[menuCursor] == 0)
+	if ((monpals.hlt[menuCursor] > 0) || (monpals.spc[menuCursor] == 0))
 	{
 		BattleItemMissUsed();
 	}
 	else
 	{
 		monpals.cdn[menuCursor] = 0;
-		monpals.hlt[menuCursor] = monpals.maxHlt[menuCursor] / 2;
+		monpals.hlt[menuCursor] = (monpals.maxHlt[menuCursor] / 2);
 		monpals.eng[menuCursor] = monpals.maxEng[menuCursor];
 
 		BattleVisuals();
@@ -861,7 +861,7 @@ void BattleRevive()
 		delay(2000);
 
 		--revive;
-	};
+	}
 }
 
 void BattleFinale()
@@ -1062,15 +1062,15 @@ void Battle()
 		delay(2000);
 	}
 
-	if(arduboy.justPressed(LEFT_BUTTON) && menuCursor > 0)
+	if(arduboy.justPressed(LEFT_BUTTON) && (menuCursor > 0))
 	{
 		beep.tone(beep.freq(500), 1);
 		--menuCursor;
 	}
 
-	if(arduboy.justPressed(RIGHT_BUTTON) && menuCursor < 3)
+	if(arduboy.justPressed(RIGHT_BUTTON) && (menuCursor < 3))
 	{
-		if (menuCursor >= 2 && (buttonClick > 1))
+		if ((menuCursor >= 2) && (buttonClick > 1))
 			menuCursor = 2;
 		else
 		{
@@ -1079,7 +1079,7 @@ void Battle()
 		}
 	}
 
-	if(arduboy.justPressed(A_BUTTON) && buttonClick > 0 && buttonClick < 4)
+	if(arduboy.justPressed(A_BUTTON) && (buttonClick > 0) && (buttonClick < 4))
 	{
 		beep.tone(beep.freq(500), 1);
 
@@ -1121,28 +1121,28 @@ void Battle()
 
 			if (buttonClick == 1)
 			{
-				if (menuCursor == 0 && herb > 0)
+				if (menuCursor == 0 && (herb > 0))
 				{
 					itemChoice = 1;
 					menuCursor = 0;
 					buttonClick = 3;
 					i = 2;
 				}
-				else if (menuCursor == 1 && coffee > 0)
+				else if (menuCursor == 1 && (coffee > 0))
 				{
 					itemChoice = 2;
 					menuCursor = 0;
 					buttonClick = 3;
 					i = 2;
 				}
-				else if (menuCursor == 2 && cure > 0)
+				else if (menuCursor == 2 && (cure > 0))
 				{
 					itemChoice = 3;
 					menuCursor = 0;
 					buttonClick = 3;
 					i = 2;
 				}
-				else if (menuCursor == 3 && revive > 0)
+				else if (menuCursor == 3 && (revive > 0))
 				{
 					itemChoice = 4;
 					menuCursor = 0;
@@ -1160,23 +1160,23 @@ void Battle()
 				}
 			}
 
-			if (menuCursor == 2 && buttonClick == 0)
+			if ((menuCursor == 2) && (buttonClick == 0))
 			{
 				menuCursor = 0;
 				buttonClick = 1;
 				i = 2;
-			};
+			}
 
 			BattleSwitch();
 
-			if (menuCursor == 3 && buttonClick == 0)
+			if ((menuCursor == 3) && (buttonClick == 0))
 			{
 				i = 2;
 				buttonClick = 2;
 				menuCursor = 0;
-			};
+			}
 
-			if ((((monpals.spd[monpals.player] * monpals.lvl[monpals.player]) >= (monpals.spd[monpals.enemy] * monpals.lvl[monpals.enemy]) && i == 0) || ((monpals.spd[monpals.player] * monpals.lvl[monpals.player]) < (monpals.spd[monpals.enemy] * monpals.lvl[monpals.enemy]) && i == 1)) && buttonClick == 0)
+			if (((((monpals.spd[monpals.player] * monpals.lvl[monpals.player]) >= (monpals.spd[monpals.enemy] * monpals.lvl[monpals.enemy])) && (i == 0)) || (((monpals.spd[monpals.player] * monpals.lvl[monpals.player]) < (monpals.spd[monpals.enemy] * monpals.lvl[monpals.enemy])) && (i == 1))) && (buttonClick == 0))
 			{
 				monpals.attacker = monpals.player;
 				monpals.victim = monpals.enemy;
@@ -1192,7 +1192,7 @@ void Battle()
 					BattleDefense();
 			}
 
-			if (((monpals.spd[monpals.player]*monpals.lvl[monpals.player]) < (monpals.spd[monpals.enemy]*monpals.lvl[monpals.enemy]) && i == 0) || ((monpals.spd[monpals.player]*monpals.lvl[monpals.player]) >= (monpals.spd[monpals.enemy]*monpals.lvl[monpals.enemy]) && i == 1))
+			if ((((monpals.spd[monpals.player] * monpals.lvl[monpals.player]) < (monpals.spd[monpals.enemy] * monpals.lvl[monpals.enemy])) && (i == 0)) || (((monpals.spd[monpals.player] * monpals.lvl[monpals.player]) >= (monpals.spd[monpals.enemy] * monpals.lvl[monpals.enemy])) && (i == 1)))
 			{
 				monpals.attacker = monpals.enemy;
 				monpals.victim = monpals.player;
@@ -1214,7 +1214,7 @@ void Battle()
 			if ((monpals.hlt[monpals.player] <= 0) || (monpals.hlt[monpals.enemy] <= 0))
 				i = 1;
 
-			if (monpals.hlt[monpals.enemy] <= 0 && (monpals.hlt[4] > 0 || monpals.hlt[5] > 0) && monpals.enemy != 5)
+			if ((monpals.hlt[monpals.enemy] <= 0) && ((monpals.hlt[4] > 0) || (monpals.hlt[5] > 0)) && (monpals.enemy != 5))
 			{
 				BattleVisuals();
 				t = monpals.spc[monpals.enemy];
@@ -1242,13 +1242,13 @@ void Battle()
 				arduboy.display();
 				delay(2000);
 			}
-			else if (monpals.hlt[3] == 0 && monpals.hlt[4] == 0 && monpals.hlt[5] == 0)
+			else if ((monpals.hlt[3] == 0) && (monpals.hlt[4] == 0) && (monpals.hlt[5] == 0))
 			{
 				victory = true;
 				BattleFinale();
 			}
 
-			if (monpals.hlt[monpals.player] <= 0 && (monpals.hlt[0] > 0 || monpals.hlt[1] > 0 || monpals.hlt[2] > 0) && buttonClick != 4)
+			if ((monpals.hlt[monpals.player] <= 0) && ((monpals.hlt[0] > 0) || (monpals.hlt[1] > 0) || (monpals.hlt[2] > 0)) && (buttonClick != 4))
 			{
 				buttonClick=4;
 
@@ -1264,9 +1264,9 @@ void Battle()
 				arduboy.display();
 				delay(2000);
 			}
-			else if (monpals.hlt[0] == 0 && monpals.hlt[1] == 0 && monpals.hlt[2] == 0)
+			else if ((monpals.hlt[0] == 0) && (monpals.hlt[1] == 0) && (monpals.hlt[2] == 0))
 				BattleFinale();
-		};
+		}
 	}
 
 	BattleVisuals();
@@ -1337,7 +1337,7 @@ void MenuVisuals()
 				arduboy.drawBitmap( 111, 29, characterTwo, 8, 8, WHITE);
 
 			delay(100);
-		};
+		}
 	}
 	else
 	{
@@ -1352,7 +1352,7 @@ void MenuVisuals()
 
 		if (buttonClick == 3)
 			arduboy.drawBitmap( 111, 29, characterThree, 8, 8, WHITE);
-	};
+	}
 }
 
 void MenuMenuVisuals()
@@ -1375,7 +1375,7 @@ void MenuMenuVisuals()
 
 		if (menuCursor == 3)
 			arduboy.print(F("<ARENA>"));
-	};
+	}
 
 	if (buttonClick == 1)
 	{
@@ -1387,9 +1387,9 @@ void MenuMenuVisuals()
 
 		if (menuCursor == 1)
 			arduboy.print(F("<LVLUP>-10G"));
-	};
+	}
 
-	if (buttonClick == 2 || buttonClick == 7 || buttonClick == 8 || buttonClick == 10 || buttonClick == 11)
+	if ((buttonClick == 2) || (buttonClick == 7) || (buttonClick == 8) || (buttonClick == 10) || (buttonClick == 11))
 	{
 		if (buttonClick != 11)
 			MonpalSelection();
@@ -1478,13 +1478,13 @@ void MenuMenuVisuals()
 
 		if (menuCursor == 1)
 			arduboy.print(F("<BOX  >"));
-	};
+	}
 
 	if (buttonClick != 0)
 	{
 		arduboy.setCursor(84, 56);
 		arduboy.print(F("(A)BACK"));
-	};
+	}
 }
 
 void MenuLevelUp()
@@ -1513,7 +1513,7 @@ void MenuLevelUp()
 		Text();
 
 		arduboy.print(F(" leveled up."));
-	};
+	}
 
 	arduboy.display();
 	delay(2000);
@@ -1524,7 +1524,8 @@ void MenuArenaBattle()
 	MenuVisuals();
 	arduboy.setCursor(0, 48);
 
-	if (medals == 4) arduboy.print(F("You have all the medals."));
+	if (medals == 4)
+		arduboy.print(F("You have all the medals."));
 	else
 	{
 		GameState = 0;
@@ -1581,7 +1582,7 @@ void MenuBuyItem()
 {
 	BuyMenuVisuals();
 
-	if ((gold < 4 && menuCursor == 0) || (gold < 2 && menuCursor == 1) || (gold < 6 && menuCursor == 2) || (gold < 8 && menuCursor == 3))
+	if (((gold < 4) && (menuCursor == 0)) || ((gold < 2) && (menuCursor == 1)) || ((gold < 6) && (menuCursor == 2)) || ((gold < 8) && (menuCursor == 3)))
 		arduboy.print(F("Not enough gold."));
 	else
 	{
@@ -1596,7 +1597,7 @@ void MenuBuyItem()
 				gold -= 4;
 				BuyMenuVisuals();
 				arduboy.print(F("You bought a herb."));
-			};
+			}
 		}
 
 		if (menuCursor == 1)
@@ -1610,7 +1611,7 @@ void MenuBuyItem()
 				gold -= 2;
 				BuyMenuVisuals();
 				arduboy.print(F("You bought a coffee."));
-			};
+			}
 		}
 
 		if (menuCursor == 2)
@@ -1652,7 +1653,7 @@ void BuyMenuVisuals()
 
 void Menu()
 {
-	if(arduboy.justPressed(LEFT_BUTTON) && menuCursor > 0)
+	if(arduboy.justPressed(LEFT_BUTTON) && (menuCursor > 0))
 	{
 		if (buttonClick != 3)
 		{
@@ -1662,11 +1663,11 @@ void Menu()
 		}
 	}
 
-	if(arduboy.justPressed(RIGHT_BUTTON) && ((menuCursor < 3 && buttonClick != 11) || (menuCursor < 14 && buttonClick == 11)))
+	if(arduboy.justPressed(RIGHT_BUTTON) && (((menuCursor < 3) && (buttonClick != 11)) || ((menuCursor < 14) && (buttonClick == 11))))
 	{
-		if ((buttonClick == 1 || buttonClick == 4 || buttonClick == 9) && menuCursor >= 1)
+		if (((buttonClick == 1) || (buttonClick == 4) || (buttonClick == 9)) && (menuCursor >= 1))
 			menuCursor = 1;
-		else if ((buttonClick == 2 || buttonClick == 7 || buttonClick == 8 || buttonClick == 10) && menuCursor >= 2)
+		else if (((buttonClick == 2) || (buttonClick == 7) || (buttonClick == 8) || (buttonClick == 10)) && menuCursor >= 2)
 			menuCursor = 2;
 		else
 		{
@@ -1679,7 +1680,7 @@ void Menu()
 		}
 	}
 
-	if(arduboy.justPressed(A_BUTTON) && buttonClick != 0)
+	if(arduboy.justPressed(A_BUTTON) && (buttonClick != 0))
 	{
 		beep.tone(beep.freq(500), 1);
 		/*sound.tone(NOTE_B4, 50);*/
@@ -1709,7 +1710,7 @@ void Menu()
 			menuCursor = 0;
 			buttonClick = 4;
 		}
-		else if (buttonClick >= 7 && buttonClick <= 9)
+		else if ((buttonClick >= 7) && (buttonClick <= 9))
 		{
 			menuCursor = 0;
 			buttonClick = 6;
@@ -1723,7 +1724,7 @@ void Menu()
 		{
 			buttonClick = 0;
 			menuCursor = 0;
-		};
+		}
 	}
 
 	if(arduboy.justPressed(B_BUTTON))
@@ -1733,7 +1734,7 @@ void Menu()
 		beep.noTone();
 		/*sound.tone(NOTE_B4, 50);*/
 
-		if (buttonClick == 10 || buttonClick == 11)
+		if ((buttonClick == 10) || (buttonClick == 11))
 			MonMove();
 
 		if (buttonClick == 9)
@@ -1776,7 +1777,7 @@ void Menu()
 			{
 				ItemConstruct();
 				buttonClick = 5;
-			};
+			}
 
 			if (menuCursor == 1)
 				MenuBuyMon();
@@ -1804,9 +1805,9 @@ void Menu()
 				buttonClick=2;
 
 			menuCursor = 0;
-		};
+		}
 
-		if (buttonClick == 0 && GameState == 2)
+		if ((buttonClick == 0) && (GameState == 2))
 		{
 			if (menuCursor == 0)
 				buttonClick = 6;
@@ -1879,7 +1880,7 @@ void EnemyMonConstruct()
 
 		if (medals == 2)
 		{
-		monpals.mons[3][0] = 25;
+			monpals.mons[3][0] = 25;
 			monpals.mons[4][0] = 219;
 			monpals.mons[5][0] = 125;
 		}
@@ -1894,7 +1895,7 @@ void EnemyMonConstruct()
 		monpals.mons[3][1] = 255;
 		monpals.mons[4][1] = 255;
 		monpals.mons[5][1] = 255;
-	};
+	}
 }
 
 void ItemConstruct()
@@ -1907,7 +1908,7 @@ void ItemConstruct()
 
 	if (i >= 64)
 	{
-		for (i; i>=64; i-=64)
+		for (i; i >= 64; i-=64)
 		{
 			++herb;
 		}
@@ -1915,7 +1916,7 @@ void ItemConstruct()
 
 	if (i >= 16)
 	{
-		for (i; i>=16; i-=16)
+		for (i; i >= 16; i-=16)
 		{
 			++coffee;
 		}
@@ -1923,7 +1924,7 @@ void ItemConstruct()
 
 	if (i >= 4)
 	{
-		for (i; i>=4; i-=4)
+		for (i; i >= 4; i-=4)
 		{
 			++cure;
 		}
@@ -1931,11 +1932,11 @@ void ItemConstruct()
 
 	if (i >= 1)
 	{
-		for (i; i>=1;--i)
+		for (i; i >= 1;--i)
 		{
 			++revive;
 		}
-	};
+	}
 }
 
 void NewMon()
@@ -1970,49 +1971,49 @@ void Text()
 	if (t == 0)
 		arduboy.print(F("EMPTY"));
 
-	if (t == 1 || (t >=16 && t <= 31))
+	if ((t == 1) || ((t >= 16) && (t <= 31)))
 		arduboy.print(F("AUDIOUSE"));
 
-	if (t == 2 || (t >=32 && t <= 47))
+	if ((t == 2) || ((t >= 32) && (t <= 47)))
 		arduboy.print(F("BEETHRONE"));
 
-	if (t == 3 || (t >=48 && t <= 63))
+	if ((t == 3) || ((t >= 48) && (t <= 63)))
 		arduboy.print(F("BUBBLUE"));
 
-	if (t == 4 || (t >=64 && t <= 79))
+	if ((t == 4) || ((t >= 64) && (t <= 79)))
 		arduboy.print(F("BUNNERINA"));
 
-	if (t == 5 || (t >=80 && t <= 95))
+	if ((t == 5) || ((t >= 80) && (t <= 95)))
 		arduboy.print(F("CHLOROSAUR"));
 
-	if (t == 6 || (t >=96 && t <= 111))
+	if ((t == 6) || ((t >= 96) && (t <= 111)))
 		arduboy.print(F("KRIBBIT"));
 
-	if (t == 7 || (t >=112 && t <= 127))
+	if ((t == 7) || ((t >= 112) && (t <= 127)))
 		arduboy.print(F("MICRUNT"));
 
-	if (t == 8 || (t >=128 && t <= 143))
+	if ((t == 8) || ((t >= 128) && (t <= 143)))
 		arduboy.print(F("OKARD"));
 
-	if (t == 9 || (t >=144 && t <= 159))
+	if ((t == 9) || ((t >= 144) && (t <= 159)))
 		arduboy.print(F("PECAW"));
 
-	if (t == 10 || (t >=160 && t <= 175))
+	if ((t == 10) || ((t >= 160) && (t <= 175)))
 		arduboy.print(F("POLTERGRAB"));
 
-	if (t == 11 || (t >=176 && t <= 191))
+	if ((t == 11) || ((t >= 176) && (t <= 191)))
 		arduboy.print(F("SERPURNT"));
 
-	if (t == 12 || (t >=192 && t <= 207))
+	if ((t == 12) || ((t >= 192) && (t <= 207)))
 		arduboy.print(F("SLUGAMMA"));
 
-	if (t == 13 || (t >=208 && t <= 223))
+	if ((t == 13) || ((t >= 208) && (t <= 223)))
 		arduboy.print(F("SPYMERA"));
 
-	if (t == 14 || (t >=224 && t <= 239))
+	if ((t == 14) || ((t >= 224) && (t <= 239)))
 		arduboy.print(F("SQUEAMASK"));
 
-	if (t == 15 || (t >=240 && t <= 255))
+	if ((t == 15) || ((t >= 240) && (t <= 255)))
 		arduboy.print(F("XENAUCER"));
 }
 
@@ -2105,7 +2106,7 @@ void MonClearConstruct()
 		monpals.def[i] = 0;
 		monpals.spd[i] = 0;
 		monpals.cdn[i] = 0;
-	};
+	}
 }
 
 void MonSpcStatConstruct()
@@ -2250,11 +2251,11 @@ void MonLvlSpcConstruct()
 {
 	for (i = 16; i < 255; i += 16)
 	{
-		if (monpals.mons[a][0] >= i && monpals.mons[a][0] <= i + 15)
+		if ((monpals.mons[a][0] >= i) && (monpals.mons[a][0] <= (i + 15)))
 		{
 			monpals.spc[a] = i / 16;
 			monpals.lvl[a] = monpals.mons[a][0] - i;
-		};
+		}
 	}
 }
 
@@ -2361,7 +2362,7 @@ void MonRelease()
 	arduboy.setCursor(0, 48);
 	if (monpals.mons[menuCursor][0] > 16)
 	{
-		if (monpals.mons[1][0] == 0 && monpals.mons[2][0] == 0)
+		if ((monpals.mons[1][0] == 0) && (monpals.mons[2][0] == 0))
 			arduboy.print(F("Must have one monpal in party."));
 		else
 		{
@@ -2403,7 +2404,7 @@ void MonMove()
 	MenuVisuals();
 	arduboy.setCursor(0, 48);
 
-	if (buttonClick == 11 && boxedMons[menuCursor][0] > 16)
+	if ((buttonClick == 11) && (boxedMons[menuCursor][0] > 16))
 	{
 		t = boxedMons[menuCursor][0];
 
@@ -2422,11 +2423,11 @@ void MonMove()
 			arduboy.print(F("Party is full."));
 		else
 		{
-			if (boxedMons[menuCursor + 1][0] > 16 && menuCursor != 14)
+			if ((boxedMons[menuCursor + 1][0] > 16) && (menuCursor != 14))
 			{
 				for (i = 0; i <= 14; ++i)
 				{
-					if (boxedMons[i][0] < 17 && i < 14)
+					if ((boxedMons[i][0] < 17) && (i < 14))
 					{
 						boxedMons[i][0] = boxedMons[i + 1][0];
 						boxedMons[i][1] = boxedMons[i + 1][1];
@@ -2440,10 +2441,10 @@ void MonMove()
 			arduboy.print(F(" was moved to party."));
 		}
 	}
-	else if (buttonClick == 11 && boxedMons[menuCursor][0] < 17)
+	else if ((buttonClick == 11) && (boxedMons[menuCursor][0] < 17))
 		arduboy.print(F("No monpal here."));
 
-	if (buttonClick == 10 && monpals.mons[menuCursor][0] > 16 && monpals.mons[1][0] > 16)
+	if ((buttonClick == 10) && (monpals.mons[menuCursor][0] > 16) && (monpals.mons[1][0] > 16))
 	{
 		t = monpals.mons[menuCursor][0];
 		for (i = 0; i <= 14; ++i)
@@ -2457,15 +2458,15 @@ void MonMove()
 			}
 		}
 
-		if (boxedMons[14][0] > 16 && monpals.mons[menuCursor][0] > 16)
+		if ((boxedMons[14][0] > 16) && (monpals.mons[menuCursor][0] > 16))
 			arduboy.print(F("Box is full."));
 		else
 		{
-			if (monpals.mons[menuCursor+1][0] > 16 && menuCursor != 2)
+			if ((monpals.mons[menuCursor + 1][0] > 16) && (menuCursor != 2))
 			{
-				for (i=menuCursor; i <= 2; ++i)
+				for (i = menuCursor; i <= 2; ++i)
 				{
-					if (monpals.mons[i][0] < 17 && i < 2)
+					if ((monpals.mons[i][0] < 17) && (i < 2))
 					{
 						monpals.mons[i][0] = monpals.mons[i + 1][0];
 						monpals.mons[i][1] = monpals.mons[i + 1][1];
@@ -2516,11 +2517,11 @@ void TitleScreen()
 		GameState = 3;
 	}
 
-	if (arduboy.justPressed(A_BUTTON) && monpals.mons[0][0] > 16)
+	if (arduboy.justPressed(A_BUTTON) && (monpals.mons[0][0] > 16))
 	{
 		beep.tone(beep.freq(500), 1);
 		Load();
-	};
+	}
 }
 
 void Gameloop()
